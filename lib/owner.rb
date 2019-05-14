@@ -56,4 +56,11 @@ class Owner
     @@pets[:fishes].collect {|fish| fish.mood = "happy"}
   end
 
+  def sell_pets
+    pets.each do |pet_type, pets|
+      pets.map {|pet| pet.mood = "nervous"}
+    end
+    pets.clear
+  end
+
 end
