@@ -1,62 +1,59 @@
 class Owner
-  @@all= []
-  attr_accessor :name, :pets
-  attr_reader :species
 
-  # Instance Methods #
+  attr_reader :species
+  attr_accessor :name, :pets, :fish, :dog, :cat
+
+  @@all = []
+  @@pets = {:cats=>[], :dogs=>[], :fishes=>[]}
 
   def initialize(species)
     @species = species
+    @name = name
     @@all << self
-    @pets = {:fishes => [], :dogs => [], :cats => []}
+  end
+
+  def self.all
+    @@all
+  end
+
+  def self.count
+    @@all.length
+  end
+
+  def self.reset_all
+    @@all.clear
   end
 
   def say_species
-    return "I am a #{@species}."
+    "I am a #{species}."
   end
 
-  # Pets #
-
-  def buy_fish(name_of_fish)
-    @pets[:fishes] << Fish.new(name_of_fish)
+  def pets
+    @@pets
   end
 
-  def buy_dog(name_of_dog)
-    @pets[:dogs] << Dog.new(name_of_dog)
+  def buy_fish(fish)
+    @@pets[:fishes] << Fish.new(fish)
   end
 
-  def buy_cat(name_of_cat)
-    @pets[:cats] << Cat.new(name_of_cat)
+  def buy_cat(cat)
+    @@pets[:cats] << Cat.new(cat)
+  end
+
+  def buy_dog(dog)
+    @@pets[:dogs] << Dog.new(dog)
   end
 
   def walk_dogs
-    @pets.collect do |species, instances|
-      if species == :dogs
-        instances.each do |dog|
-          dog.mood = "happy"
-        end
-      end
-    end
+    @@pets[:dogs].collect {|dog| dog.mood = "happy"}
   end
 
   def play_with_cats
-    @pets.collect do |species, instances|
-      if species == :cats
-        instances.each do |cat|
-          cat.mood = "happy"
-        end
-      end
-    end
+    @@pets[:cats].collect {|cat| cat.mood = "happy"}
   end
 
   def feed_fish
-    @pets.collect do |species, instances|
-      if species == :fishes
-        instances.each do |fish|
-          fish.mood = "happy"
-        end
-      end
-    end
+    @@pets[:fishes].collect {|fish| fish.mood = "happy"}
   end
 
   def sell_pets
@@ -66,26 +63,5 @@ class Owner
       end
       instances.clear
     end
-  end
-
-  def list_pets
-    num_dogs = @pets[:dogs].size
-    num_cats = @pets[:cats].size
-    num_fish = @pets[:fishes].size
-    return "I have #{num_fish} fish, #{num_dogs} dog(s), and #{num_cats} cat(s)."
-  end
-
-  # Class Methods #
-
-  def self.all
-    @@all
-  end
-
-  def self.reset_all
-    @@all.clear
-  end
-
-  def self.count
-    @@all.size
   end
 end
